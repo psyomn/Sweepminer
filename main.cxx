@@ -10,7 +10,25 @@ using namespace std;
 int main(){
   Board b;
   Ren r;
+  unsigned int px;
+  unsigned int py;
 
-  b.print();
+  while(b.getState()){
+    cout << " - Private view - " << endl;
+    b.print();
+    cout << " - Game view - " << endl;
+    b.printGame();
+	cout << "X coordinate: ";
+	cin >> px;
+	cout << "Y coordinate: ";
+	cin >> py;
+	b.pick(px, py);
+  }
+
+/*
+  while(b.getState()) <- while game is ok.
+
+*/
+
   return 0;
 }
