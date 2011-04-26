@@ -3,17 +3,18 @@
 
 #include "Board.hxx"
 
-/* default constructor */
-Board::Board() : mWidth(15), mHeight(10), mBombs(10), mState(true){
+/** default constructor */
+Board::Board() : mWidth(15), mHeight(10), mBombs(10), mState(true), mWin(false){
+  mStartTime = time(0);
   generate(mWidth,mHeight,mBombs);
 }
 
-/* Constructor for entering values on the fly */
-Board::Board(unsigned int x, unsigned int y, unsigned int b) : mState(true){
+/** Constructor for entering values on the fly */
+Board::Board(unsigned int x, unsigned int y, unsigned int b) : mState(true), mWin(false){
   generate(x,y,b);
 }
 
-/* Generic generation function. */
+/** Generic generation function. */
 void Board::generate(unsigned int x, unsigned int y, unsigned int b){
   unsigned int i, j;
   unsigned int rx, ry;
@@ -72,16 +73,20 @@ void Board::generate(unsigned int x, unsigned int y, unsigned int b){
 
 }
 
+/** Default destructor */
 Board::~Board(){} // I don't think I have to manually deallocate the vecs
 
+/** Set the position with a specific value */
 void Board::setPos(int x, int y, int v){
   mBoard.at(x).assign(y, v);
 }
 
+/** Get the positions specific value */
 int Board::getPos(int x, int y) const{
   return mBoard.at(x).at(y); 
 }
 
+/** Return a constant instance of the vector we're using as a board */
 const vector< vector<int> > Board::getVector() const{
   return mBoard;
 }
@@ -102,6 +107,7 @@ void Board::print() const {
 		  case 5: wc("5", BROWN);   break; 
 		  case 6: wc("6", CYAN);    break; 
 		  case 7: wc("7", GREY);    break;
+		  case 8: wc("8", DGRAY);    break;
 		}
 	  else
         cout << " ";
@@ -130,8 +136,8 @@ bool Board::getState() const {
   return mState;
 }
 
-/** Set the state of the game 
-\param s state of the game
+/** Set the state of the game. True means, game is ongoing. False means game
+is done. \param s state of the game
 */
 void Board::setState(bool s) {
   mState = s;
@@ -163,26 +169,58 @@ void Board::printGame() const {
   } 
 }
 
+/** Interface for int input 
+\param x interger value. If negative, the absolute value is found and passed on
+\param y interger value. If negative, the absolute value is found and passed on
+*/
+void Board::pick(int x, int y){
+  unsigned int xx; 
+  unsigned int yy;
+
+  x < 0 ? xx = -x : xx = x;
+  y < 0 ? yy = -y : yy = y;
+
+  pick(xx, yy); // Send off the unsigned int values
+}
+
 /** picking function for a tile 
 \param x is for x coord.
 \param y is for y coord. */
-void Board::pick(int x, int y){
+void Board::pick(unsigned int x, unsigned int y){
   bool ok;
-  
-  x > mWidth - 1  ? ok = false : ok = true;
-  x < 0           ? ok = false : ok = true;
-  y > mHeight - 1 ? ok = false : ok = true;
-  y < 0           ? ok = false : ok = true;
 
+  x > mWidth  - 1 ? ok = false : ok = true;
+  y > mHeight - 1 ? ok = false : ok = true;
+
+  // If coordinates inserted are ok
   if (ok) {
-    mGame[y][x] = mBoard[y][x];
+	mGame[y][x] = mBoard[y][x];
 	if (mGame[y][x] >= 9){
 	  mState = false;
 	  wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", RED);
 	}
+	else{
+	  ++mScore; // increment uncovered tile number
+	  // check to see if game is complete
+	  if ( mWidth*mHeight - mBombs == mScore ){
+	    mState = false;
+		mWin = true;
+	  }
+
+	}
+  
   } else {
     cout << "There's something wrong with the coordinates you put" << endl;
   }
+}
+
+/** Return the amount of seconds this game took */
+time_t Board::getTime(){
+  return time(0) - mStartTime; 
+}
+
+bool Board::getWin(){
+  return mWin;
 }
 
 #endif

@@ -7,9 +7,11 @@ using namespace std;
 
 #include "Board.hxx"
 #include "Ren.hxx"
+#include "GameStats.hxx"
 
 int main(){
   Board *b;
+  GameStats gs;
   
   unsigned int px; // pick x - also used for width initialization
   unsigned int py; // pick y - also used for height initialization
@@ -29,8 +31,6 @@ int main(){
 	b = new Board(px, py, nb);
 	
 	while(b->getState()){
-      cout << " - Private view - " << endl;
-      b->print();
       cout << " - Game view - " << endl;
       b->printGame();
       
@@ -41,7 +41,18 @@ int main(){
       
 	  b->pick(px, py);
     }
-    delete b; 
+    
+	// TODO
+	// cout << "You wasted " << b->getTime() << " seconds on that game !" << endl;
+    
+    b->getWin() ? gs.win() : gs.lose(); // Whether game was won or lost
+
+    cout << " - Private view - " << endl;
+    b->print();
+
+	delete b; 
+
+    gs.print();
 
 	cout << "Play again ? [yes/no] : ";
 	cin >> str;
