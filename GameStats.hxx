@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <ctime>
+#include <string>
+#include <fstream>
 using namespace std;
 
 /** Simple class to store different game stats.
@@ -16,15 +18,19 @@ public:
   void lose();
   void tryTimeHighscore(time_t);
   void print();
+  void save();
+  void load();
+  void startTimer();
   unsigned int getPlayed();
   unsigned int getWon();
   unsigned int getLost();
   time_t getTime();
 private:
-  unsigned int mGamesWon;
-  unsigned int mGamesPlayed;
-  time_t mTimeTook;
-  void setTime(time_t);
+  unsigned int mGamesWon; /** Number of games won */
+  unsigned int mGamesPlayed; /** Number of games played */
+  time_t mTimeTook; /** Time taken to complete a game */
+  void setTime(time_t); /** */
+  static string mSaveFile; /** Filename to store statistics. ./save.dat */
 };
 
 #endif

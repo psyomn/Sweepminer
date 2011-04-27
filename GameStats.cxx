@@ -3,11 +3,17 @@
 
 #include "GameStats.hxx"
 
+string GameStats::mSaveFile = "save.dat";
+
 /** Default constructor. Initialize all to zero. */
-GameStats::GameStats() : mGamesWon(0), mGamesPlayed(0){}
+GameStats::GameStats() : mGamesWon(0), mGamesPlayed(0), mTimeTook(0){
+  load();
+}
 
 /** Default destructor. Nothing to deallocate */
-GameStats::~GameStats(){}
+GameStats::~GameStats(){
+  save();
+}
 
 /** Increment the total amount of games played and lost. */
 void GameStats::win(){
@@ -19,6 +25,10 @@ void GameStats::win(){
 found using a simple calculation of substraction */
 void GameStats::lose(){
   ++mGamesPlayed;
+}
+
+/** Start the timer (maybe this will be removed later...) */
+void GameStats::startTimer(){
 }
 
 /** Get the number of games the player has won. */
@@ -48,9 +58,10 @@ void GameStats::setTime(time_t st){
 
 /** Check and see if the time highscore is broken */
 void GameStats::tryTimeHighscore(time_t t){
-  t >= mTimeTook ? 0 : mTimeTook = t;
+  t >= mTimeTook && mTimeTook != 0 ? 0 : mTimeTook = t;
 }
 
+/** Print the game statistics */
 void GameStats::print(){
   cout << "Times Won     : " << mGamesWon << endl;
   cout << "Times Lost    : " << mGamesPlayed - mGamesWon << endl;
@@ -58,6 +69,33 @@ void GameStats::print(){
   cout << "Shortest time : " << mTimeTook << endl;
 }
 
+/** Save data inside a binary file \see mSaveFile */
+void GameStats::save(){
+  ofstream ofs;
+  
+  ofs.open(mSaveFile.c_str(), ios::binary | ios::out);
+
+  if (ofs){
+    ofs.write( (const char*) &mGamesWon, sizeof(mGamesWon));
+	ofs.write( (const char*) &mGamesPlayed, sizeof(mGamesPlayed));
+	ofs.write( (const char*) &mTimeTook, sizeof(mTimeTook));
+	cout << "Wrote save" << endl;
+  }
+}
+
+/** Load data from binary file \see mSaveFile */
+void GameStats::load(){
+  ifstream ifs;
+
+  ifs.open(mSaveFile.c_str(), ios::binary | ios::in);
+  
+  if (ifs){
+    ifs.read( (char*) &mGamesWon, sizeof(mGamesWon));
+	ifs.read( (char*) &mGamesPlayed, sizeof(mGamesPlayed));
+	ifs.read( (char*) &mTimeTook, sizeof(mTimeTook));
+	cout << "Load save" << endl;
+  }
+}
 
 #endif
 

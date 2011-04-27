@@ -4,13 +4,12 @@
 #include "Board.hxx"
 
 /** default constructor */
-Board::Board() : mWidth(15), mHeight(10), mBombs(10), mState(true), mWin(false){
-  mStartTime = time(0);
+Board::Board() : mWidth(15), mHeight(10), mBombs(10), mScore(0), mState(true), mWin(false), mStartTime(time(0)){
   generate(mWidth,mHeight,mBombs);
 }
 
 /** Constructor for entering values on the fly */
-Board::Board(unsigned int x, unsigned int y, unsigned int b) : mState(true), mWin(false){
+Board::Board(unsigned int x, unsigned int y, unsigned int b) : mScore(0), mState(true), mWin(false), mStartTime(time(0)){
   generate(x,y,b);
 }
 
@@ -91,7 +90,7 @@ const vector< vector<int> > Board::getVector() const{
   return mBoard;
 }
 
-/* Printing function for the board */
+/** Printing function for the board */
 void Board::print() const {
   // y, then x
   for(vector< vector<int> >::const_iterator  it = mBoard.begin(); it != mBoard.end(); ++it){
@@ -118,7 +117,6 @@ void Board::print() const {
 
 /** Used for simple debugging */
 void Board::debug(){
-
   for(vector< vector<int> >::const_iterator  it = mBoard.begin(); it != mBoard.end(); ++it){
     cout << ". ";
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
@@ -127,8 +125,9 @@ void Board::debug(){
 	}
 	cout << endl;
   }
-  cout << "Height: " << mBoard.size() << endl;
-  cout << "Width:" << mBoard[0].size() << endl;
+  cout << "Height : " << mBoard.size() << endl;
+  cout << "Width  : " << mBoard[0].size() << endl;
+  cout << "Score  : " << mScore << endl;
 }
 
 /** Return whether the game is being played or not */
@@ -194,13 +193,15 @@ void Board::pick(unsigned int x, unsigned int y){
 
   // If coordinates inserted are ok
   if (ok) {
-	mGame[y][x] = mBoard[y][x];
-	if (mGame[y][x] >= 9){
+	if (mBoard[y][x] >= 9){
 	  mState = false;
 	  wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", RED);
 	}
 	else{
-	  ++mScore; // increment uncovered tile number
+	  if (mGame[y][x] == -1){ 
+	    ++mScore; // increment uncovered tile number
+	    mGame[y][x] = mBoard[y][x];
+      }
 	  // check to see if game is complete
 	  if ( mWidth*mHeight - mBombs == mScore ){
 	    mState = false;
@@ -219,6 +220,7 @@ time_t Board::getTime(){
   return time(0) - mStartTime; 
 }
 
+/** \return mWin to see if the game was won or not. */
 bool Board::getWin(){
   return mWin;
 }

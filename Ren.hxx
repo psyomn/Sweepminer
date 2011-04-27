@@ -9,7 +9,7 @@ class Ren {
 public:
   Ren();
   ~Ren();
-  unsigned int getRandomNumber();
+  unsigned int getRandomNumber(); 
   unsigned int getRandomNumber(unsigned int);
 private:
 

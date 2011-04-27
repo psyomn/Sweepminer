@@ -1,3 +1,16 @@
+/**
+\mainpage Sweepminer
+\author psyomn
+\section main What is Sweepminer
+Sweepminer is just another minesweeper game written in C++ using
+STL. 
+\section done Done
+All basic functionalities of a minesweeper game have been implemented.
+\section todo Todo
+Algorithm for 0's expansion, 
+AI for hints
+*/
+
 #include <iostream>
 #include <string>
 #include <limits>
@@ -20,6 +33,8 @@ int main(){
   string str;
 
   cout << "Welcome to sweepminer!" << endl;
+  cout << endl << " -- stats -- " << endl;
+  gs.print();
 
   while(newgame){
     cout << "Enter board width  : ";
@@ -33,7 +48,6 @@ int main(){
 	while(b->getState()){
       cout << " - Game view - " << endl;
       b->printGame();
-      
 	  cout << "X coordinate: ";
       cin >> px;
       cout << "Y coordinate: ";
@@ -42,9 +56,8 @@ int main(){
 	  b->pick(px, py);
     }
     
-	// TODO
-	// cout << "You wasted " << b->getTime() << " seconds on that game !" << endl;
-    
+	cout << "Game took " << b->getTime() << " seconds!" << endl;
+    gs.tryTimeHighscore(b->getTime()); 
     b->getWin() ? gs.win() : gs.lose(); // Whether game was won or lost
 
     cout << " - Private view - " << endl;
