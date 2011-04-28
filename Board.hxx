@@ -34,6 +34,7 @@ public:
 private:
   /** Generates the board */
   void generate(unsigned int, unsigned int, unsigned int); 
+  void expandZeros(unsigned int, unsigned int);
   
   // Variables
   vector< vector<int> > mBoard; /** Hidden board */

@@ -25,6 +25,8 @@ public:
   unsigned int getWon();
   unsigned int getLost();
   time_t getTime();
+  double percentWin();
+  double percentLose();
 private:
   unsigned int mGamesWon; /** Number of games won */
   unsigned int mGamesPlayed; /** Number of games played */

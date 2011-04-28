@@ -58,7 +58,9 @@ int main(){
     
 	cout << "Game took " << b->getTime() << " seconds!" << endl;
     gs.tryTimeHighscore(b->getTime()); 
+
     b->getWin() ? gs.win() : gs.lose(); // Whether game was won or lost
+	cout << ( b->getWin() ? "WIN!" : "lose." ) << endl;
 
     cout << " - Private view - " << endl;
     b->print();

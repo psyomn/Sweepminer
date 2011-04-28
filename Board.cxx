@@ -129,6 +129,7 @@ void Board::debug(){
   cout << "Height : " << mBoard.size() << endl;
   cout << "Width  : " << mBoard[0].size() << endl;
   cout << "Score  : " << mScore << endl;
+  cout << "Need   : " << mWidth*mHeight - mBombs << endl;
 }
 
 /** Return whether the game is being played or not */
@@ -202,11 +203,14 @@ void Board::pick(unsigned int x, unsigned int y){
 	}
 	else{
 	  if (mGame[y][x] == -1){ 
-	    ++mScore; // increment uncovered tile number
 	    mGame[y][x] = mBoard[y][x];
+		if(!mGame[y][x]) 
+		  expandZeros(x,y);
+		else 
+		  ++mScore; // increment uncovered tile number
       }
 	  // check to see if game is complete
-	  if ( mWidth*mHeight - mBombs == mScore ){
+	  if ( mWidth*mHeight - mBombs <= mScore ){
 	    mState = false;
 		mWin = true;
 	  }
@@ -226,6 +230,39 @@ time_t Board::getTime(){
 /** \return mWin to see if the game was won or not. */
 bool Board::getWin(){
   return mWin;
+}
+
+/** Function that will take care of showing all the zeros.
+I'm assuming boards won't be big enought to perform stack
+overflows with this recursive function */
+void Board::expandZeros(unsigned int x, unsigned int y){
+  unsigned int top;
+  unsigned int bottom;
+  unsigned int left;
+  unsigned int right;
+
+  // Check to see that coordinate is indeed zero
+  mGame[y][x] = mBoard[y][x];
+  ++mScore;
+  if(!mGame[y][x]){
+    /* Now we need only to check the surrounding stuffs */
+    top    = y == 0 ? 0 : 1;
+    bottom = y == mHeight-1 ? 0 : 1;
+    left   = x == 0 ? 0 : 1;
+    right  = x == mWidth-1 ? 0 : 1;
+
+    //cout << "zero detect" << top << bottom << left << right << endl;
+
+	if(top    && mGame[y-1][x]<0) expandZeros(x, y-1);  //  X  
+	if(bottom && mGame[y+1][x]<0) expandZeros(x, y+1);  // XOX
+	if(left   && mGame[y][x-1]<0) expandZeros(x-1, y);  //  X
+	if(right  && mGame[y][x+1]<0) expandZeros(x+1, y);
+	
+	if(top    && left  && mGame[y-1][x-1]<0) expandZeros(x-1, y-1);  // X X  
+	if(top    && right && mGame[y-1][x+1]<0) expandZeros(x+1, y-1);  //  O 
+	if(bottom && left  && mGame[y+1][x-1]<0) expandZeros(x-1, y+1);  // X X
+	if(bottom && right && mGame[y+1][x+1]<0) expandZeros(x+1, y+1);
+  }
 }
 
 #endif

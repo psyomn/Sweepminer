@@ -67,6 +67,8 @@ void GameStats::print(){
   cout << "Times Lost    : " << mGamesPlayed - mGamesWon << endl;
   cout << "Times Played  : " << mGamesPlayed << endl;
   cout << "Shortest time : " << mTimeTook << endl;
+  cout << "Win Ratio     : " << percentWin() << "%" << endl;
+  cout << "Lose Ratio    : " << percentLose() << "%"  << endl;
 }
 
 /** Save data inside a binary file \see mSaveFile */
@@ -95,6 +97,16 @@ void GameStats::load(){
 	ifs.read( (char*) &mTimeTook, sizeof(mTimeTook));
 	cout << "Load save" << endl;
   }
+}
+
+/** \return percentage of wins */
+double GameStats::percentWin(){
+  return 100.0 * (double) mGamesWon / mGamesPlayed;
+}
+
+/** \return percentage of lose */
+double GameStats::percentLose(){
+  return 100.0 * (double) (mGamesPlayed - mGamesWon) / mGamesPlayed;
 }
 
 #endif
