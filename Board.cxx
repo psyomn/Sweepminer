@@ -93,20 +93,21 @@ const vector< vector<int> > Board::getVector() const{
 /** Printing function for the board */
 void Board::print() const {
   // y, then x
+  TinyColor tc;
   for(vector< vector<int> >::const_iterator  it = mBoard.begin(); it != mBoard.end(); ++it){
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
 	  if (*it2 > 8)
-	    wc("X", RED);
+	    tc.wc("X", tinyc::TC_RED);
 	  else if (*it2 > 0)
 	    switch(*it2){
-		  case 1: wc("1", GREEN);   break;
-		  case 2: wc("2", BLUE);    break;
-		  case 3: wc("3", LGREEN);  break;
-		  case 4: wc("4", MAGENTA); break;
-		  case 5: wc("5", BROWN);   break; 
-		  case 6: wc("6", CYAN);    break; 
-		  case 7: wc("7", GREY);    break;
-		  case 8: wc("8", DGRAY);    break;
+		  case 1: tc.wc("1", tinyc::TC_GRE); break;
+		  case 2: tc.wc("2", tinyc::TC_BLU); break;
+		  case 3: tc.wc("3", tinyc::TC_YEL); break;
+		  case 4: tc.wc("4", tinyc::TC_MAG); break;
+		  case 5: tc.wc("5", tinyc::TC_YEL); break; 
+		  case 6: tc.wc("6", tinyc::TC_CYA); break; 
+		  case 7: tc.wc("7", tinyc::TC_GRY); break;
+		  case 8: tc.wc("8", tinyc::TC_GRY); break;
 		}
 	  else
         cout << " ";
@@ -144,23 +145,24 @@ void Board::setState(bool s) {
 
 /** This prints the game view */
 void Board::printGame() const {
+  TinyColor tc;
   // y, then x
   for(vector< vector<int> >::const_iterator  it = mGame.begin(); it != mGame.end(); ++it){
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
 	  if (*it2 > 8)
-	    wc("X", RED);
+	    tc.wc("X", tinyc::TC_RED);
 	  else if (*it2 > 0)
 	    switch(*it2){
-		  case 1: wc("1", GREEN);   break;
-		  case 2: wc("2", BLUE);    break;
-		  case 3: wc("3", LGREEN);  break;
-		  case 4: wc("4", MAGENTA); break;
-		  case 5: wc("5", BROWN);   break; 
-		  case 6: wc("6", CYAN);    break; 
-		  case 7: wc("7", GREY);    break;
+		  case 1: tc.wc("1", tinyc::TC_GRE); break;
+		  case 2: tc.wc("2", tinyc::TC_BLU); break;
+		  case 3: tc.wc("3", tinyc::TC_YEL); break;
+		  case 4: tc.wc("4", tinyc::TC_MAG); break;
+		  case 5: tc.wc("5", tinyc::TC_YEL); break; 
+		  case 6: tc.wc("6", tinyc::TC_CYA); break; 
+		  case 7: tc.wc("7", tinyc::TC_GRY); break;
 		}
 	  else if (*it2 < 0)
-	    wc("?", WHITE);
+	    tc.wc("?", tinyc::TC_WHI);
 	  else
         cout << " ";
 	}
@@ -186,6 +188,7 @@ void Board::pick(int x, int y){
 \param x is for x coord.
 \param y is for y coord. */
 void Board::pick(unsigned int x, unsigned int y){
+  TinyColor tc;
   bool ok;
 
   x > mWidth  - 1 ? ok = false : ok = true;
@@ -195,7 +198,7 @@ void Board::pick(unsigned int x, unsigned int y){
   if (ok) {
 	if (mBoard[y][x] >= 9){
 	  mState = false;
-	  wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", RED);
+	  tc.wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", tinyc::TC_RED);
 	}
 	else{
 	  if (mGame[y][x] == -1){ 

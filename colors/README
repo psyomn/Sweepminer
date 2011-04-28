@@ -1,8 +1,0 @@
-These are here in order to highlight special messages.
-The functions should not be used that much because it
-tends to be poor practice to use output colors in the
-'hackey' way I have implemented them (which is using
-the escape sequences you can use on linux terminals).
-
-For example if you want to typescript program output,
-you will get really messy results...

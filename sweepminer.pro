@@ -10,5 +10,5 @@ OBJECTS_DIR = obj
 CONFIG -= qt
 
 # Input
-HEADERS += Board.hxx Ren.hxx GameStats.hxx
-SOURCES += Board.cxx main.cxx Ren.cxx GameStats.cxx
+HEADERS += Board.hxx Ren.hxx GameStats.hxx tinyc/TinyColor.hxx
+SOURCES += Board.cxx main.cxx Ren.cxx GameStats.cxx tinyc/TinyColor.cxx

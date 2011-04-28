@@ -6,7 +6,7 @@
 #include <ctime>
 using namespace std;
 
-#include "colors/osdepend.h"
+#include "tinyc/TinyColor.hxx"
 
 #include "Ren.hxx"
 
