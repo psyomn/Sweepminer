@@ -28,42 +28,42 @@ void Board::generate(unsigned int x, unsigned int y, unsigned int b){
 
   for(i=0; i<mHeight; ++i){
     mBoard.push_back(vector<int>(mWidth,0));
-	mGame.push_back(vector<int>(mWidth,-1));
+  mGame.push_back(vector<int>(mWidth,-1));
   }
 
   for(j=0; j<mBombs; ++j){
     rx = mRen.getRandomNumber(mWidth);
-	ry = mRen.getRandomNumber(mHeight);
-	
-	if (mBoard[ry][rx] < 9){ // in case we fall somewhere there is already a bomb.
-	  mBoard[ry][rx] = 9;
+  ry = mRen.getRandomNumber(mHeight);
+  
+  if (mBoard[ry][rx] < 9){ // in case we fall somewhere there is already a bomb.
+    mBoard[ry][rx] = 9;
 
       /* Now we need only to check the surrounding stuffs */
-	  top    = ry == 0 ? 0 : 1;
-	  bottom = ry == mHeight-1 ? 0 : 1;
-	  left   = rx == 0 ? 0 : 1;
-	  right  = rx == mWidth-1 ? 0 : 1;
+    top    = ry == 0 ? 0 : 1;
+    bottom = ry == mHeight-1 ? 0 : 1;
+    left   = rx == 0 ? 0 : 1;
+    right  = rx == mWidth-1 ? 0 : 1;
 
-	  // top three exist? 
+    // top three exist? 
       if(top){
-	    ++mBoard[ry - top][rx];
-	    if (left)  ++mBoard[ry - top][rx - left];
-	    if (right) ++mBoard[ry - top][rx + right];
+      ++mBoard[ry - top][rx];
+      if (left)  ++mBoard[ry - top][rx - left];
+      if (right) ++mBoard[ry - top][rx + right];
       }
 
-	  // left right exist ?
-	  if(left)  ++mBoard[ry][rx - left];
-	  if(right) ++mBoard[ry][rx + right];
+    // left right exist ?
+    if(left)  ++mBoard[ry][rx - left];
+    if(right) ++mBoard[ry][rx + right];
 
-	  // bottom three exist?
-	  if(bottom){
-	    ++mBoard[ry + bottom][rx];
-	    if(right) ++mBoard[ry + bottom][rx + right];
-	    if(left)  ++mBoard[ry + bottom][rx - left];
-	  }
-	}
-	else
-	  --j;
+    // bottom three exist?
+    if(bottom){
+      ++mBoard[ry + bottom][rx];
+      if(right) ++mBoard[ry + bottom][rx + right];
+      if(left)  ++mBoard[ry + bottom][rx - left];
+    }
+  }
+  else
+    --j;
   }
 
   /* Note: the above will make bombs of 9 in some cases > 9. We do not care
@@ -96,23 +96,23 @@ void Board::print() const {
   TinyColor tc;
   for(vector< vector<int> >::const_iterator  it = mBoard.begin(); it != mBoard.end(); ++it){
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
-	  if (*it2 > 8)
-	    tc.wc("X", tinyc::TC_RED);
-	  else if (*it2 > 0)
-	    switch(*it2){
-		  case 1: tc.wc("1", tinyc::TC_GRE); break;
-		  case 2: tc.wc("2", tinyc::TC_BLU); break;
-		  case 3: tc.wc("3", tinyc::TC_YEL); break;
-		  case 4: tc.wc("4", tinyc::TC_MAG); break;
-		  case 5: tc.wc("5", tinyc::TC_YEL); break; 
-		  case 6: tc.wc("6", tinyc::TC_CYA); break; 
-		  case 7: tc.wc("7", tinyc::TC_GRY); break;
-		  case 8: tc.wc("8", tinyc::TC_GRY); break;
-		}
-	  else
+    if (*it2 > 8)
+      tc.wc("X", tinyc::TC_RED);
+    else if (*it2 > 0)
+      switch(*it2){
+        case 1: tc.wc("1", tinyc::TC_GRE); break;
+        case 2: tc.wc("2", tinyc::TC_BLU); break;
+        case 3: tc.wc("3", tinyc::TC_YEL); break;
+        case 4: tc.wc("4", tinyc::TC_MAG); break;
+        case 5: tc.wc("5", tinyc::TC_YEL); break; 
+        case 6: tc.wc("6", tinyc::TC_CYA); break; 
+        case 7: tc.wc("7", tinyc::TC_GRY); break;
+        case 8: tc.wc("8", tinyc::TC_GRY); break;
+      }
+    else
         cout << " ";
-	}
-	cout << endl;
+  }
+  cout << endl;
   }
 }
 
@@ -121,10 +121,10 @@ void Board::debug(){
   for(vector< vector<int> >::const_iterator  it = mBoard.begin(); it != mBoard.end(); ++it){
     cout << ". ";
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
-	  cout << *it2; 
+    cout << *it2; 
       cout << " ";
-	}
-	cout << endl;
+  }
+  cout << endl;
   }
   cout << "Height : " << mBoard.size() << endl;
   cout << "Width  : " << mBoard[0].size() << endl;
@@ -150,24 +150,26 @@ void Board::printGame() const {
   // y, then x
   for(vector< vector<int> >::const_iterator  it = mGame.begin(); it != mGame.end(); ++it){
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2){
-	  if (*it2 > 8)
-	    tc.wc("X", tinyc::TC_RED);
-	  else if (*it2 > 0)
-	    switch(*it2){
-		  case 1: tc.wc("1", tinyc::TC_GRE); break;
-		  case 2: tc.wc("2", tinyc::TC_BLU); break;
-		  case 3: tc.wc("3", tinyc::TC_YEL); break;
-		  case 4: tc.wc("4", tinyc::TC_MAG); break;
-		  case 5: tc.wc("5", tinyc::TC_YEL); break; 
-		  case 6: tc.wc("6", tinyc::TC_CYA); break; 
-		  case 7: tc.wc("7", tinyc::TC_GRY); break;
-		}
-	  else if (*it2 < 0)
-	    tc.wc("?", tinyc::TC_WHI);
-	  else
+    if (*it2 > 8)
+      tc.wc("X", tinyc::TC_RED);
+    else if (*it2 > 0)
+      switch(*it2){
+        case 1: tc.wc("1", tinyc::TC_GRE); break;
+        case 2: tc.wc("2", tinyc::TC_BLU); break;
+        case 3: tc.wc("3", tinyc::TC_YEL); break;
+        case 4: tc.wc("4", tinyc::TC_MAG); break;
+        case 5: tc.wc("5", tinyc::TC_YEL); break; 
+        case 6: tc.wc("6", tinyc::TC_CYA); break; 
+        case 7: tc.wc("7", tinyc::TC_GRY); break;
+      }
+    else if (*it2 == -1)
+      tc.wc("?", tinyc::TC_WHI);
+    else if (*it2 == -2)
+      tc.wc("F", tinyc::TC_RED);
+    else
         cout << " ";
-	}
-	cout << endl;
+  }
+  cout << endl;
   } 
 }
 
@@ -197,25 +199,25 @@ void Board::pick(unsigned int x, unsigned int y){
 
   // If coordinates inserted are ok
   if (ok) {
-	if (mBoard[y][x] >= 9){
-	  mState = false;
-	  tc.wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", tinyc::TC_RED);
-	}
-	else{
-	  if (mGame[y][x] == -1){ 
-	    mGame[y][x] = mBoard[y][x];
-		if(!mGame[y][x]) 
-		  expandZeros(x,y);
-		else 
-		  ++mScore; // increment uncovered tile number
+  if (mBoard[y][x] >= 9){
+    mState = false;
+    tc.wc("BOOM! YOU ARE DEAD! NO BIG SURPRISE!\n", tinyc::TC_RED);
+  }
+  else{
+    if (mGame[y][x] == -1){ 
+      mGame[y][x] = mBoard[y][x];
+  	if(!mGame[y][x]) 
+  	  expandZeros(x,y);
+  	else 
+  	  ++mScore; // increment uncovered tile number
       }
-	  // check to see if game is complete
-	  if ( mWidth*mHeight - mBombs <= mScore ){
-	    mState = false;
-		mWin = true;
-	  }
+    // check to see if game is complete
+    if ( mWidth*mHeight - mBombs <= mScore ){
+      mState = false;
+  	mWin = true;
+    }
 
-	}
+  }
   
   } else {
     cout << "There's something wrong with the coordinates you put" << endl;
@@ -253,15 +255,34 @@ void Board::expandZeros(unsigned int x, unsigned int y){
 
     //cout << "zero detect" << top << bottom << left << right << endl;
 
-	if(top    && mGame[y-1][x]<0) expandZeros(x, y-1);  //  X  
-	if(bottom && mGame[y+1][x]<0) expandZeros(x, y+1);  // XOX
-	if(left   && mGame[y][x-1]<0) expandZeros(x-1, y);  //  X
-	if(right  && mGame[y][x+1]<0) expandZeros(x+1, y);
-	
-	if(top    && left  && mGame[y-1][x-1]<0) expandZeros(x-1, y-1);  // X X  
-	if(top    && right && mGame[y-1][x+1]<0) expandZeros(x+1, y-1);  //  O 
-	if(bottom && left  && mGame[y+1][x-1]<0) expandZeros(x-1, y+1);  // X X
-	if(bottom && right && mGame[y+1][x+1]<0) expandZeros(x+1, y+1);
+  if(top    && mGame[y-1][x]<0) expandZeros(x, y-1);  //  X  
+  if(bottom && mGame[y+1][x]<0) expandZeros(x, y+1);  // XOX
+  if(left   && mGame[y][x-1]<0) expandZeros(x-1, y);  //  X
+  if(right  && mGame[y][x+1]<0) expandZeros(x+1, y);
+  
+  if(top    && left  && mGame[y-1][x-1]<0) expandZeros(x-1, y-1);  // X X  
+  if(top    && right && mGame[y-1][x+1]<0) expandZeros(x+1, y-1);  //  O 
+  if(bottom && left  && mGame[y+1][x-1]<0) expandZeros(x-1, y+1);  // X X
+  if(bottom && right && mGame[y+1][x+1]<0) expandZeros(x+1, y+1);
+  }
+}
+
+/** Function to place flags so that player has easier time thinking
+and not remembering.\param x coordinate to add flag at x position,
+\param y coordinate to flag at y position. \param on whether to set
+flag on or off*/
+void Board::flag(unsigned int x, unsigned int y){
+  bool ok;
+
+  x < mWidth  - 1 ? ok = true : ok = false;
+  y < mHeight - 1 ? ok = true : ok = false;
+
+  if(ok){
+    if(mGame[y][x] == -1){
+      mGame[y][x] = -2;  
+    } else if (mGame[y][x] == -2){
+      mGame[y][x] = -1;
+    }
   }
 }
 

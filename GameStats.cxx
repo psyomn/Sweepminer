@@ -3,6 +3,7 @@
 
 #include "GameStats.hxx"
 
+/** Default save name for the file to store stats in */
 string GameStats::mSaveFile = "save.dat";
 
 /** Default constructor. Initialize all to zero. */

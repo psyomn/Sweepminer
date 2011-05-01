@@ -27,6 +27,7 @@ public:
   void printGame() const;
   void pick(int, int);
   void pick(unsigned int, unsigned int);
+  void flag(unsigned int, unsigned int);
 
   // Functions
   void print() const;

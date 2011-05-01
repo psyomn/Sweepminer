@@ -31,6 +31,7 @@ int main(){
   unsigned int nb; // num of bombs
   bool newgame = true;
   string str;
+  string com; // for the commands
 
   cout << "Welcome to sweepminer!" << endl;
   cout << endl << " -- stats -- " << endl;
@@ -48,12 +49,37 @@ int main(){
 	while(b->getState()){
       cout << " - Game view - " << endl;
       b->printGame();
-	  cout << "X coordinate: ";
-      cin >> px;
-      cout << "Y coordinate: ";
-      cin >> py;
-      
-	  b->pick(px, py);
+
+      cout << "sm::";
+      cin >> com;
+
+      switch(com[0]){
+        case 'p': case 'P':
+          cout << "X coordinate: ";
+          cin >> px;
+          cout << "Y coordinate: ";
+          cin >> py;
+	      b->pick(px, py);
+          break;
+        case 'h': case 'H':
+          cout << "Options : " << endl;
+          cout << "  p - pick a tile " << endl;
+          cout << "  f - flag a tile " << endl;
+          cout << "  a - ask the ai for a hint " << endl;
+          break;
+        case 'f': case 'F':
+          cout << "Flag " << endl;
+          cout << "x : "; cin >> px;
+          cout << "y : "; cin >> py;
+          b->flag(px,py);
+          break;
+        default:
+          cout << "Something is wrong with your input" << endl;
+          cout << "Try entering 'help' " << endl;
+          break;
+      }
+     
+	          
     }
     
 	cout << "Game took " << b->getTime() << " seconds!" << endl;

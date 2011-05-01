@@ -31,8 +31,8 @@ private:
   unsigned int mGamesWon; /** Number of games won */
   unsigned int mGamesPlayed; /** Number of games played */
   time_t mTimeTook; /** Time taken to complete a game */
-  void setTime(time_t); /** */
-  static string mSaveFile; /** Filename to store statistics. ./save.dat */
+  void setTime(time_t); /** Main method to set the time if won */
+  static string mSaveFile; 
 };
 
 #endif
