@@ -1,7 +1,5 @@
-#ifndef REN_CXX
-#define REN_CXX
-
 #include "Ren.hxx"
+
 /** Default construct */
 Ren::Ren(){
   srand( time ( NULL ) );
@@ -22,7 +20,4 @@ unsigned int
 Ren::getRandomNumber(unsigned int x) {
   return rand()%x;
 }
-
-#endif
-
 

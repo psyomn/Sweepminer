@@ -1,15 +1,15 @@
 /**
-\mainpage Sweepminer
-\author psyomn
-\section main What is Sweepminer
-Sweepminer is just another minesweeper game written in C++ using
-STL. 
-\section done Done
-All basic functionalities of a minesweeper game have been implemented.
-\section todo Todo
-Algorithm for 0's expansion, 
-AI for hints
-*/
+ * \mainpage Sweepminer
+ * \author psyomn
+ * \section main What is Sweepminer
+ * Sweepminer is just another minesweeper game written in C++ using
+ * STL. 
+ * \section done Done
+ * All basic functionalities of a minesweeper game have been implemented.
+ * \section todo Todo
+ * Algorithm for 0's expansion, 
+ * AI for hints
+ */
 
 #include <iostream>
 #include <string>

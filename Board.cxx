@@ -1,6 +1,3 @@
-#ifndef BOARD_CXX
-#define BOARD_CXX
-
 #include "Board.hxx"
 
 /** default constructor */
@@ -285,6 +282,4 @@ void Board::flag(unsigned int x, unsigned int y){
     }
   }
 }
-
-#endif
 

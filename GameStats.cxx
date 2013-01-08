@@ -1,6 +1,3 @@
-#ifndef GAMESTATS_CXX
-#define GAMESTATS_CXX
-
 #include "GameStats.hxx"
 
 /** Default save name for the file to store stats in */
@@ -109,6 +106,4 @@ double GameStats::percentWin(){
 double GameStats::percentLose(){
   return 100.0 * (double) (mGamesPlayed - mGamesWon) / mGamesPlayed;
 }
-
-#endif
 
